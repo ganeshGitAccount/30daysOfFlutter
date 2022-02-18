@@ -1,6 +1,7 @@
-import 'package:firstapp/home_page.dart';
+import 'package:firstapp/Pages/home_page.dart';
+import 'package:firstapp/Pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'Pages/home_page.dart';
 
 void main() {
   runApp(myApp());
@@ -15,7 +16,24 @@ class myApp extends StatelessWidget {
     // num temp = 30.0;
     // var day = "Tuesday";
     // const pi = 3.14;
+    bringVegatables(thaila: true);
+    return MaterialApp(
+      //  home: HomePage(),
+      themeMode: ThemeMode.light,
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      initialRoute: "/home",
+      routes: {
+        "/": (context) => LoginPage(),
+        "/home": (context) => HomePage(),
+        "/login": (context) => LoginPage()
+      },
+    );
+  }
 
-    return MaterialApp(home: HomePage());
+  bringVegatables({required bool thaila, int ruppes = 100}) {
+    print("Good happens");
   }
 }
