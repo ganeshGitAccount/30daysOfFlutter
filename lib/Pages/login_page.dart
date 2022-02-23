@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:firstapp/utilis/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:matcher/matcher.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -13,19 +10,19 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String name = "";
-  bool buttonStatus = false;
+  bool changeButton = false;
 
   final _formkey = GlobalKey<FormState>();
 
-  moveToNextPage(BuildContext context) async {
+  moveToHome(BuildContext context) async {
     if (_formkey.currentState!.validate()) {
       setState(() {
-        buttonStatus = true;
+        changeButton = true;
       });
       await Future.delayed(Duration(seconds: 1));
       await Navigator.pushNamed(context, MyRoute.homeRoute);
       setState(() {
-        buttonStatus = false;
+        changeButton = false;
       });
     }
   }
@@ -58,13 +55,13 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: "Enter username",
                       labelText: "Username",
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter username';
+                      if (value!.isEmpty) {
+                        return "Username can not be empty";
                       }
                       return null;
                     },
@@ -77,13 +74,13 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: true,
                     decoration: const InputDecoration(
                       hintText: "Enter password",
-                      labelText: "Password",
+                      labelText: "password",
                     ),
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter password';
+                      if (value!.isEmpty) {
+                        return "Password can not be empty";
                       } else if (value.length < 6) {
-                        return 'Password length should be less than 6';
+                        return "Password length should be alteast 6 characters.";
                       }
                       return null;
                     },
@@ -92,43 +89,35 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   Material(
-                    borderRadius:
-                        BorderRadius.circular(buttonStatus ? 50.0 : 8.0),
                     color: Colors.deepPurple,
+                    borderRadius: BorderRadius.circular(changeButton ? 40 : 8),
                     child: InkWell(
-                      // splashColor: Colors.red,
-                      onTap: () => moveToNextPage(context),
+                      onTap: () => moveToHome(context),
                       child: AnimatedContainer(
-                        alignment: Alignment.center,
-                        width: buttonStatus ? 50 : 150,
-                        height: 40,
                         duration: Duration(seconds: 1),
-                        child: buttonStatus
-                            ? Icon(Icons.done, color: Colors.white)
-                            : const Text(
-                                "Login",
+                        width: changeButton ? 40 : 140,
+                        height: 40,
+                        alignment: Alignment.center,
+                        child: changeButton
+                            ? const Icon(
+                                Icons.done,
+                                color: Colors.white,
+                              )
+                            : const Text("Login",
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              ),
-                        // decoration: BoxDecoration(
-                        //     color: Colors.deepPurple,
-                        //     // shape:
-                        //     //     buttonStatus ? BoxShape.circle : BoxShape.rectangle,
-                        //     borderRadius:
-                        //         BorderRadius.circular(buttonStatus ? 50.0 : 8.0)),
+                                    fontWeight: FontWeight.bold)),
                       ),
                     ),
                   ),
-
                   // ElevatedButton(
-                  //     style: TextButton.styleFrom(minimumSize: Size(120, 40)),
-                  //     onPressed: () {
-                  //       Navigator.pushNamed(context, MyRoute.homeRoute);
-                  //       print("Hi codepur");
-                  //     },
-                  //     child: Text("Login")),
+                  //   child: Text("Login"),
+                  //   style: TextButton.styleFrom(minimumSize: Size(150, 40)),
+                  //   onPressed: () {
+                  //     Navigator.pushNamed(context, MyRoute.homeRoute);
+                  //     print("Hi codepur");
+                  //   },
+                  // )
                 ],
               ),
             )
@@ -138,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
     ));
   }
 }
+ 
 /*
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
